@@ -10,5 +10,5 @@ a Jenkins Server to a Pterodactyl Server
 - Low usage of network
 - Editable
 ## Links
-https://www.jenkins.io/ 
-https://pterodactyl.io/
+- https://www.jenkins.io/ 
+- https://pterodactyl.io/
