@@ -1,0 +1,59 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2023-02-21T21:36:30+01:00",
+    "name": "Jenkins Discord Artifact Builder",
+    "author": "muxxlenetzwerk@gmail.com",
+    "description": "This egg is trying to get JAR artifact resources from a specific Jenkins Server.\r\n\r\nFor this Builder you need to configure the Install Script:\r\n- First you need to change the username to your jenkins name\r\n- Secondly you need to change the password to your API-Key from your user\r\n- Thirdly you need to change the link to yours\r\n\r\n! IF YOU HAVE ANY QUESTIONS FEEL FREE TO ASK ON MY DISCORD !\r\n! ELSE THERE ARE SOME TUTORIALS ATTACHED                                   !\r\nhttps:\/\/www.jenkins.io\/doc\/book\/system-administration\/authenticating-scripted-clients\/\r\n\r\nIf you don't need the config file, just set it to {} in the egg configuration.",
+    "features": null,
+    "docker_images": {
+        "Java 11": "ghcr.io\/pterodactyl\/yolks:java_11",
+        "Java 11 OPENJ9": "ghcr.io\/pterodactyl\/yolks:java_11j9",
+        "Java 16": "ghcr.io\/pterodactyl\/yolks:java_16",
+        "Java 16 OPENJ9": "ghcr.io\/pterodactyl\/yolks:java_16j9",
+        "Java 17": "ghcr.io\/pterodactyl\/yolks:java_17",
+        "Java 17 OPENJ9": "ghcr.io\/pterodactyl\/yolks:java_17j9",
+        "Java 18": "ghcr.io\/pterodactyl\/yolks:java_18",
+        "Java 18 OPENJ9": "ghcr.io\/pterodactyl\/yolks:java_18j9"
+    },
+    "file_denylist": [],
+    "startup": "java -Xms128M -XX:MaxRAMPercentage=95.0 -Dterminal.jline=false -Dterminal.ansi=true -jar {{JARFILE}} {{ARGS}}",
+    "config": {
+        "files": "{\r\n    \"cfg.properties\": {\r\n        \"parser\": \"properties\",\r\n        \"find\": {\r\n            \"bot.token\": \"\",\r\n            \"shard.count\": \"\",\r\n            \"prefix\": \"\"\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \"Finished installation\"\r\n}",
+        "logs": "0",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/ash\r\n# Jenkins Jar-File puller\r\n#\r\n# Server Files: \/mnt\/server\r\napk update\r\napk add wget\r\n\r\ncd \/mnt\/server\r\n\r\nwget -O bot.jar --auth-no-challenge \\\r\n    --user=user --password=apiKey \\\r\n    http:\/\/muxxle.com:3100\/job\/Security-Maid\/lastSuccessfulBuild\/artifact\/target\/securitymaid-2.0-0.0.1-TEST.jar",
+            "container": "alpine:3.4",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "JarFile_var",
+            "description": "",
+            "env_variable": "JARFILE",
+            "default_value": "bot.jar",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:30",
+            "field_type": "text"
+        },
+        {
+            "name": "Arguments",
+            "description": "",
+            "env_variable": "ARGS",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:128",
+            "field_type": "text"
+        }
+    ]
+}
